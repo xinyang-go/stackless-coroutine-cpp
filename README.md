@@ -43,7 +43,7 @@ public:
 private:
     int _status;
     int x, i;
-}
+};
 ```
 
 可以看出，一个协程函数可以用一个类实现：
@@ -98,7 +98,7 @@ public:
     
 private:
     int x, i;
-}
+};
 ```
 
 是不是已经很有协程的味道了！
