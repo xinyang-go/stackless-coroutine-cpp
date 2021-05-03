@@ -9,3 +9,5 @@ add_executable(stackless_coroutine_generator generator.cpp)
 
 add_executable(stackless_coroutine_async async.cpp)
 target_link_libraries(stackless_coroutine_async Threads::Threads)
+
+add_executable(stackless_coroutine_get_value get_value.cpp)
