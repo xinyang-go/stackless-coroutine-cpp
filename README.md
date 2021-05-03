@@ -22,8 +22,11 @@ public:
     explicit generator(int x) : x(x) {}
     
     int operator()(){
-        if(_status == 0) goto status_0;
-        else if(_status == 1) goto status_1;
+        switch(_status){
+            case 0: goto status_0;
+            case 1: goto status_1;
+            default: ; // something wrong
+        }
         
         status_0:
         for(i = 0; i < x; i++) {
@@ -54,12 +57,12 @@ private:
 对于上述代码，我们可以很容易的发现其中的重复代码，可以使用继承和宏消除重复代码：
 
 ```c++
-#define COROUTINE_CHECK_IMPL(n)     if(_status == n) goto status_##n;
+#define COROUTINE_CHECK_IMPL(n)     case n: goto status_##n;
 #define COROUTINE_CHECK_0           COROUTINE_CHECK_IMPL(0)
-#define COROUTINE_CHECK_1           COROUTINE_CHECK_0 else COROUTINE_CHECK_IMPL(1)
-#define COROUTINE_CHECK_2           COROUTINE_CHECK_1 else COROUTINE_CHECK_IMPL(2)
+#define COROUTINE_CHECK_1           COROUTINE_CHECK_0 COROUTINE_CHECK_IMPL(1)
+#define COROUTINE_CHECK_2           COROUTINE_CHECK_1 COROUTINE_CHECK_IMPL(2)
 
-#define COROUTINE_CHECK(n)          do{ COROUTINE_CHECK_##n status_0: (void)0; }while(0)
+#define COROUTINE_CHECK(n)          do{ switch(_status) { COROUTINE_CHECK_##n } status_0: (void)0; }while(0)
 #define COROUTINE_YIELD(n, expr)    do{ _status = n; return expr; status_##n: (void)0; }while(0)
 #define COROUTINE_RETURN(expr)      do{ _status = -1; return expr; }while(0)
 class coroutine_base {
