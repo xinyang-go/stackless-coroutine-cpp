@@ -126,7 +126,7 @@ private:
 
 是不是已经很有协程的味道了！
 
-我们还可以进一步简化这个程序，目前的程序COROUTINE_YIELD语句需要程序员手动进行编号，利用宏\__COUNTER__，我们可以简化这个步骤，详细实现方法见源码[coroutine_utils.cpp](coroutine_utils.cpp)。这样，程序可以进一步简化为：
+我们还可以进一步简化这个程序，目前的程序COROUTINE_YIELD语句需要程序员手动进行编号，利用宏\__LINE__，我们可以简化这个步骤，详细实现方法见源码[coroutine_utils.cpp](coroutine_utils.cpp)。这样，程序可以进一步简化为：
 
 ```c++
 class generator : public coroutine_base {
