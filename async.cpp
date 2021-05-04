@@ -3,7 +3,7 @@
  */
 
 
-#include "coroutine_utils.h"
+#include "coroutine_utils.hpp"
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -16,18 +16,18 @@ public:
     async_work(std::string name) : _name(std::move(name)) {}
 
     void operator()() {
-        COROUTINE_CHECK(5);
-        COROUTINE_YIELD(1, run());
+        COROUTINE_BEGIN
+        COROUTINE_YIELD(run());
         std::cout << _name << " work 1 done. back to thread: " << std::this_thread::get_id() << std::endl;
-        COROUTINE_YIELD(2, run());
+        COROUTINE_YIELD(run());
         std::cout << _name << " work 2 done. back to thread: " << std::this_thread::get_id() << std::endl;
-        COROUTINE_YIELD(3, run());
+        COROUTINE_YIELD(run());
         std::cout << _name << " work 3 done. back to thread: " << std::this_thread::get_id() << std::endl;
-        COROUTINE_YIELD(4, run());
+        COROUTINE_YIELD(run());
         std::cout << _name << " work 4 done. back to thread: " << std::this_thread::get_id() << std::endl;
-        COROUTINE_YIELD(5, run());
+        COROUTINE_YIELD(run());
         std::cout << _name << " work 5 done. back to thread: " << std::this_thread::get_id() << std::endl;
-        COROUTINE_RETURN();
+        COROUTINE_END
     }
 
     void run() {

@@ -3,7 +3,7 @@
  */
 
 
-#include "coroutine_utils.h"
+#include "coroutine_utils.hpp"
 #include <iostream>
 
 template<class T>
@@ -16,11 +16,12 @@ public:
     range(T begin, T end, T step) : _begin(begin), _end(end), _step(step) {}
 
     T operator()() {
-        COROUTINE_CHECK(1);
+        COROUTINE_BEGIN
         for (_i = _begin; _i < _end; _i += _step) {
-            COROUTINE_YIELD(1, _i);
+            COROUTINE_YIELD(_i);
         }
         COROUTINE_RETURN(-1);
+        COROUTINE_END
     }
 
 private:
