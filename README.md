@@ -61,11 +61,11 @@ public:
     
     int operator()(){
         switch(_status){
-        	case 0: ;
+            case 0: ;
             for(i = 0; i < x; i++) {
                 _status = 1;
                 return i;
-        		case 1: ;
+                case 1: ;
             }
             _status = -1;
             return -1;
@@ -84,7 +84,7 @@ private:
 
 ```c++
 #define COROUTINE_BEGIN             switch(_status) { case 0: ;
-#define COROUTINE_END				default: ; }
+#define COROUTINE_END                default: ; }
 #define COROUTINE_YIELD(n, expr)    do{ _status = n; return expr; case n: ; }while(0)
 #define COROUTINE_RETURN(expr)      do{ _status = -1; return expr; }while(0)
 class coroutine_base {
